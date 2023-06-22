@@ -193,6 +193,10 @@ func toSyftRelationships(spdxIDMap map[string]interface{}, doc *spdx.Document) [
 			}
 		} else {
 			switch RelationshipType(r.Relationship) {
+			case DependsOnRelationship:
+				typ = artifact.DependencyOfRelationship
+				to = from
+				from = toPackage
 			case DependencyOfRelationship:
 				typ = artifact.DependencyOfRelationship
 				to = toPackage
