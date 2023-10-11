@@ -369,6 +369,9 @@ func collectDocRelationships(spdxIDMap map[string]any, doc *spdx.Document) (out 
 		var typ artifact.RelationshipType
 		if toLocationOk {
 			switch RelationshipType(r.Relationship) {
+			case DependencyOfRelationship:
+				typ = artifact.DependencyOfRelationship
+				to = toLocation
 			case ContainsRelationship:
 				typ = artifact.ContainsRelationship
 				to = toLocation
@@ -381,6 +384,20 @@ func collectDocRelationships(spdxIDMap map[string]any, doc *spdx.Document) (out 
 			}
 		} else {
 			switch RelationshipType(r.Relationship) {
+			case DependsOnRelationship:
+				typ = artifact.DependencyOfRelationship
+				to = from
+				from = toPackage
+			case DependencyOfRelationship:
+				typ = artifact.DependencyOfRelationship
+				to = toPackage
+			case DescribedByRelationship:
+				typ = artifact.DescribedByRelationship
+				to = toPackage
+			case DescribesRelationship:
+				typ = artifact.DescribedByRelationship
+				to = from
+				from = toPackage
 			case ContainsRelationship:
 				typ = artifact.ContainsRelationship
 				to = toPackage
